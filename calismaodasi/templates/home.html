@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Ana Sayfa{% endblock %}
+
+{% block content %}
+
+<div class="home-hero py-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 text-white hero-text-area">
+            <h1 class="display-5 fw-bold hero-title">Çalışma Odası Rezervasyon Sistemi</h1>
+            <p class="lead hero-subtitle">Zamanı paylaş, sessizliği kutsallaştır</p>
+            <p class="mb-4 hero-subtitle">Odaları görüntüleyin ve uygun saatlere rezervasyon yapın.</p>
+            
+            <div class="d-flex gap-3">
+                <a href="{% url 'rooms:list' %}" class="custom-btn">Odaları Görüntüle</a>
+                <a href="{% url 'reservations:mine' %}" class="btn btn-outline-secondary text-white">Rezervasyonlarım</a>
+            </div>
+        </div>
+        <div class="col-md-6 d-none d-md-block text-center hero-image-col">
+            <img src="{% static 'img/isometric library horizontal illustration.png' %}" alt="Çalışma Odası" class="img-fluid hero-image">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
