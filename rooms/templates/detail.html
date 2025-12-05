@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Oda Detayı{% endblock %}
+{% block content %}
+  <h2>{{ room.name }}</h2>
+  <p><strong>Kapasite:</strong> {{ room.capacity }} kişi</p>
+  <p><strong>Konum:</strong> {{ room.location }}</p>
+{% endblock %}

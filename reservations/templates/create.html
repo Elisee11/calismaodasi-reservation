@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Rezervasyon Yap{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4 text-white">{{ room.name }} için Rezervasyon</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="id_date">Tarih:</label>
+    {{ form.date }}
+    <label for="id_start_time">Başlangıç Saati:</label>
+    {{ form.start_time }}
+    <label for="id_end_time">Bitiş Saati:</label>
+    {{ form.end_time }}
+   <a href="{% url 'reservations:mine' %}" class="btn btn-outline-secondary text-white">Rezervasyon Yap</a>
+  </form>
+  
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Rezervasyonlarım{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'reservations/reservations_styles.css' %}?v=2"> 
+{% endblock %}
+
+{% block content %}
+
+<div class="mine-page-content">
+
+    <h2 class="mb-5 page-title">Rezervasyonlarım</h2>
+
+    {% if reservations %}
+    <div class="row row-cols-1 g-4">
+        {% for r in reservations %}
+          <div class="col">
+            <div class="room-card p-4 d-flex justify-content-between align-items-center">
+                
+                <div class="reservation-info">
+                    <h5 class="room-title mb-1">
+                        {{ r.room.name }} 
+                        <small class="badge bg-secondary ms-2">{{ r.room.location }}</small>
+                    </h5>
+                    
+                    <p class="room-description mb-0">
+                        <span class="fw-bold">{{ r.date|date:"d M Y" }}</span> &mdash; {{ r.start_time|time:"H:i" }} - {{ r.end_time|time:"H:i" }}
+                    </p>
+                </div>
+                
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+    
+    {% else %}
+        <div class="room-card p-4 text-center">
+            <p class="text-muted mb-0">Henüz rezervasyonunuz yok.</p>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

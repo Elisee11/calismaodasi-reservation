@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} mt-3" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="dark-theme">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+
+                <h1 class="hero-title text-center mb-4">bir hesap olusturun</h1>
+                <p class="hero-subtitle text-center">saniyeler icinde bize katilin</p>
+
+                <div class="card p-4" style="background-color:#1a1748; border:1px solid #2a2559;">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                          <div class="col-md-6 mb-3">
+                                <label class="form-label text-light">adi</label>
+                                <input type="text" id="first_name"name="firstrname" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-light">soyad</label>
+                                <input type="text" id="last_name"name="lastname" class="form-control" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-light">kullanici adi</label>
+                                <input type="text"id="username"name="username" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-light">Email</label>
+                                <input type="email" id="email"name="email" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-light">sifre</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-light">sifre onayla</label>
+                            <input type="password" id="password2" name="password2" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="custom-btn w-100 mt-3">
+                            kayit olmak
+                        </button>
+
+                        <p class="text-center mt-3" style="color:#c4c1e8;">
+                            zaten bir hesabiniz var mi ?  
+                            <a href="{% url 'login' %}" class="nav-link d-inline p-0">login</a>
+                        </p>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
