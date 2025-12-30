@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 
+# calismadasi/settings.py
+
+AUTH_USER_MODEL = 'account.CustomUser'
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,17 +37,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'calismaodasi',
-    'rooms',
     'account',
-    'reservations',
-    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'calismaodasi',
+    'rooms',
+    'reservations',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +142,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+
+# Email Configuration
+# Development için console backend (e-postalar terminalde görünür)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ #Production için Gmail SMTP kullanmak isterseniz aşağıdaki ayarları aktif edin:
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'eliseegahouidi8@gmail.com'  # Gmail adresiniz
+EMAIL_HOST_PASSWORD = 'Elisee2003'  # Gmail uygulama şifreniz
+DEFAULT_FROM_EMAIL = 'Django Yol <eliseegahouidi8@gmail.com>'
+
+# Şifre sıfırlama link geçerlilik süresi (saniye cinsinden, varsayılan 3 gün)
+PASSWORD_RESET_TIMEOUT = 86400  # 24 saat

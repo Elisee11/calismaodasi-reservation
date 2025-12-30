@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-dark text-white border-secondary shadow">
+        <div class="card-header border-secondary bg-secondary">
+            <h2 class="text-center mb-0">Rezervasyonu Düzenle</h2>
+            <p class="text-center small">{{ room.name }}</p>
+        </div>
+        <div class="card-body p-4">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label fw-bold">Tarih</label>
+                        {{ form.date }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Başlangıç Saati</label>
+                        {{ form.start_time }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Bitiş Saati</label>
+                        {{ form.end_time }}
+                    </div>
+                </div>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-warning fw-bold text-dark">Değişiklikleri Kaydet</button>
+                    <a href="{% url 'reservations:mine' %}" class="btn btn-outline-light">İptal Et</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

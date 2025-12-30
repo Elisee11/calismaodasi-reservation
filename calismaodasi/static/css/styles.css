@@ -1,5 +1,5 @@
 .dark-theme {
-    background-color: #120e38; 
+    background-color: #050505; 
     color: #f0f0f0; 
     min-height: 100vh;
 }
@@ -58,7 +58,7 @@
  * ----------------------------------------
  */
 .custom-btn {
-    background-image: linear-gradient(to right, #b6502f, #f7b15e); 
+    background-image: linear-gradient(to right, #b6502f, #120e38); 
     border: none;
     color: white;
     padding: 10px 30px;
@@ -81,7 +81,13 @@
 .col-md-6 img {
     max-width: 100%;
     height: auto;
+    width: 100% ;
+    display: block;
+    
 }
+
+
+
 
 /* button detay */
 .custom-btn-2 {
@@ -95,12 +101,20 @@
 }
 
 .blurred-box {
-    background: rgba(255, 255, 255, 0.1); 
-    backdrop-filter: blur(1.5rem);
-    border-radius: 10px;
-    padding: 10px;
-    margin: 0.2rem;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #120e38;
+    color: #ffffff;
+    width: 100%;           /* S'assure qu'elle prend la même largeur que le parent */
+    max-width: 100%;       /* Empêche de déborder */
+    margin-left: 0;        /* Aligne à gauche */
+    margin-right: 0;       /* Aligne à droite */
+    padding: 10px 15px;    /* Ajustez l'espace interne si besoin */
+    box-sizing: border-box; /* Pour que le padding ne dépasse pas de la largeur */
+}
+
+.list-group.custom-btn-2 {
+    padding: 0;
+    margin: 0;
+    width:inline-block;
 }
 
 /*login*/

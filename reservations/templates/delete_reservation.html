@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-dark text-white border-danger shadow">
+        <div class="card-body text-center p-5">
+            <h2 class="text-danger mb-4">Rezervasyonu Sil?</h2>
+            <p><strong>{{ reservation.room.name }}</strong> odası için <strong>{{ reservation.date }}</strong> tarihindeki rezervasyonunuzu silmek istediğinize emin misiniz?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-lg px-5">Evet, Sil</button>
+                <a href="{% url 'reservations:mine' %}" class="btn btn-secondary btn-lg px-5">Hayır, Geri Dön</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

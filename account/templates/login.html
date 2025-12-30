@@ -40,6 +40,17 @@
                             henüz kayıtlı değil misiniz?
                             <a href="{% url 'register' %}" class="nav-link d-inline p-0">bir hesap olusturun</a>
                         </p>
+
+...
+              <div class="flex items-center justify-between text-sm">
+                <label class="flex items-center cursor-pointer">
+                  <input type="checkbox" class="w-4 h-4 text-green-500 border-gray-300 rounded focus:ring-green-500">
+                  <span class="ml-2 text-gray-600">Beni Hatırla</span>
+                </label>
+                <a href="{%url 'forgot_password'%}" class="text-green-600 hover:text-green-700 font-medium transition-colors">Şifremi Unuttum</a>
+              </div>
+...
+
                     </form>
                 </div>
 
@@ -47,5 +58,52 @@
         </div>
     </div>
 </div>
-{% endblock %}
+
+
+<script>
+  const loginBtn = document.querySelector("#loginBtn")
+  const registerBtn = document.querySelector("#registerBtn")
+  const login = document.querySelector("#login")
+  const register = document.querySelector("#register")
+
+  function switchToLogin() {
+    register.classList.add("hidden")
+    login.classList.remove("hidden")
+
+    registerBtn.classList.remove("bg-white", "text-green-600", "shadow-sm")
+    registerBtn.classList.add("text-gray-600")
+    registerBtn.querySelector('div')?.remove()
+
+    loginBtn.classList.remove("text-gray-600")
+    loginBtn.classList.add("bg-white", "text-green-600", "shadow-sm")
+
+    if (!loginBtn.querySelector('div')) {
+      const indicator = document.createElement('div')
+      indicator.className = 'absolute bottom-0 left-0 right-0 h-1 bg-green-500'
+      loginBtn.appendChild(indicator)
+    }
+  }
+
+  function switchToRegister() {
+    register.classList.remove("hidden")
+    login.classList.add("hidden")
+
+    loginBtn.classList.remove("bg-white", "text-green-600", "shadow-sm")
+    loginBtn.classList.add("text-gray-600")
+    loginBtn.querySelector('div')?.remove()
+
+    registerBtn.classList.remove("text-gray-600")
+    registerBtn.classList.add("bg-white", "text-green-600", "shadow-sm")
+
+    if (!registerBtn.querySelector('div')) {
+      const indicator = document.createElement('div')
+      indicator.className = 'absolute bottom-0 left-0 right-0 h-1 bg-green-500'
+      registerBtn.appendChild(indicator)
+    }
+  }
+
+  loginBtn.addEventListener("click", switchToLogin)
+  registerBtn.addEventListener("click", switchToRegister)
+</script>
+{%endblock%}
 

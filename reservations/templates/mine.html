@@ -11,6 +11,9 @@
 <div class="mine-page-content">
 
     <h2 class="mb-5 page-title">Rezervasyonlarım</h2>
+     <div class="col-md-6 d-none d-md-block text-center hero-image-col">
+            <img src="{% static 'img/2149647174.jpg' %}" alt="Çalışma Odası" class="img-fluid hero-image">
+        </div>
 
     {% if reservations %}
     <div class="row row-cols-1 g-4">
@@ -28,7 +31,11 @@
                         <span class="fw-bold">{{ r.date|date:"d M Y" }}</span> &mdash; {{ r.start_time|time:"H:i" }} - {{ r.end_time|time:"H:i" }}
                     </p>
                 </div>
-                
+                <div class="mt-2">
+    <a href="{% url 'reservations:update_reservation' r.pk %}" class="btn btn-sm btn-warning">Düzenle</a>
+    <a href="{% url 'reservations:delete_reservation' r.pk %}" class="btn btn-sm btn-danger" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</a>
+</div>
+</div>
             </div>
           </div>
         {% endfor %}
@@ -40,5 +47,7 @@
         </div>
     {% endif %}
 
+
 </div>
+ 
 {% endblock %}

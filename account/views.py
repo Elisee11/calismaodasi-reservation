@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth import login, logout, authenticate
+User = get_user_model()
+
 
 def register_view(request):
     if request.method =="POST":
@@ -11,6 +13,7 @@ def register_view(request):
         firstname=request.POST.get("firstname","")
         lastname=request.POST.get("lastname","")
         email=request.POST.get("email")
+        studentid=request.POST.get("studentid")
 
         
 
@@ -26,10 +29,11 @@ def register_view(request):
             password=password,
             email=email,
             first_name=firstname,
-            last_name=lastname
+            last_name=lastname,
+            student_id=studentid,
         )
         newuser.save()
-        messages.success(request, "Inscription réussie ! Vous pouvez vous connecter.")
+        messages.success(request, "Kayıt işlemi başarıyla tamamlandı! Artık giriş yapabilirsiniz.")
         return redirect("login")
 
     return render(request,"register.html")
@@ -54,3 +58,34 @@ def login_view(request):
             return render(request,'login.html')
 
     return render(request,"login.html")
+
+def forgot_password_view(request):
+    if request.method=="POST":
+        email=request.POST.get('email')
+
+        if not User.objects.filter(email=email).exists():
+            messages.error(request,"Bu e-posta adresi kayıtlı değil")
+            return render(request,"forgot_password.html")
+
+        messages.success(request,f"Şifre sıfırlama bağlantısı {email} adresine gönderildi. Lütfen e-postanızı kontrol edin.")
+        return render(request,"forgot_password.html")
+
+    return render(request,"forgot_password.html")
+
+def reset_password_view(request):
+    if request.method=="POST":
+        password=request.POST.get('password')
+        confirm_password=request.POST.get('confirm_password')
+
+        if password != confirm_password:
+            messages.error(request,"Girdiğiniz şifreler uyuşmuyor")
+            return render(request,"reset_password.html")
+
+        if len(password) < 8:
+            messages.error(request,"Şifre en az 8 karakter olmalıdır")
+            return render(request,"reset_password.html")
+
+        messages.success(request,"Şifreniz başarıyla güncellendi. Yeni şifrenizle giriş yapabilirsiniz.")
+        return redirect('login')
+
+    return render(request,"reset_password.html")

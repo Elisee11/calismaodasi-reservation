@@ -1,0 +1,30 @@
+# Environnement virtuel
+.venv/
+venv/
+env/
+
+# Fichiers Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Base de données (SQLite par défaut dans Django)
+*.sqlite3
+*.db
+
+# Fichiers secrets
+.env
+.env.local
+.env.*.local
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
