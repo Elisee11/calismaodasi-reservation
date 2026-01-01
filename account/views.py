@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_str
 User = get_user_model()
 
 
@@ -60,17 +63,29 @@ def login_view(request):
     return render(request,"login.html")
 
 def forgot_password_view(request):
-    if request.method=="POST":
-        email=request.POST.get('email')
+    User = get_user_model()
+    
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        users = User.objects.filter(email=email)
 
-        if not User.objects.filter(email=email).exists():
-            messages.error(request,"Bu e-posta adresi kayıtlı değil")
-            return render(request,"forgot_password.html")
+        if users.exists():
+            # Stocker l'email dans la session pour l'étape suivante
+            request.session['reset_email'] = email
+            messages.success(
+                request,
+                "✓ Şifre sıfırlama bağlantısı e-posta adresinize gönderildi."
+            )
+            # Rediriger vers la page de réinitialisation
+            return redirect('accounts:reset_password')
+        else:
+            messages.error(
+                request,
+                "✗ Bu e-posta adresi kayıtlı değil."
+            )
+            return redirect('accounts:forgot_password')
 
-        messages.success(request,f"Şifre sıfırlama bağlantısı {email} adresine gönderildi. Lütfen e-postanızı kontrol edin.")
-        return render(request,"forgot_password.html")
-
-    return render(request,"forgot_password.html")
+    return render(request, 'forgot_password.html')
 
 def reset_password_view(request):
     if request.method=="POST":
@@ -89,3 +104,63 @@ def reset_password_view(request):
         return redirect('login')
 
     return render(request,"reset_password.html")
+
+
+def confirm_reset_password(request, uidb64=None, token=None):
+    """Confirme et change le mot de passe"""
+    
+    if request.user.is_authenticated:
+        return redirect('home')
+    
+    User = get_user_model()
+    
+    # Décoder le token
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except:
+        user = None
+    
+    # Vérifier si le lien est valide
+    if user is None or not default_token_generator.check_token(user, token):
+        messages.error(request, "Lien invalide ou expiré!")
+        return redirect('forgot_password')
+    
+    if request.method == 'POST':
+        # Récupérer les champs avec les noms Django par défaut
+        password = request.POST.get('new_password1')
+        confirm = request.POST.get('new_password2')
+        
+        print(f"DEBUG - Password: {password}")
+        print(f"DEBUG - Confirm: {confirm}")
+        
+        # Validation
+        if not password or not confirm:
+            messages.error(request, "Veuillez remplir les deux champs!")
+        elif password != confirm:
+            messages.error(request, "Les mots de passe ne correspondent pas!")
+        elif len(password) < 6:
+            messages.error(request, "Le mot de passe doit avoir au moins 6 caractères!")
+        else:
+            # Enregistrer le nouveau mot de passe
+            user.set_password(password)
+            user.save()
+            
+            messages.success(request, "✅ Mot de passe changé avec succès! Vous pouvez maintenant vous connecter.")
+            return redirect('login')
+        
+        # Si validation échoue, re-render avec les erreurs
+        return render(request, 'reset_password.html', {
+            'uidb64': uidb64,
+            'token': token,
+            'validlink': True,
+            'form': None  # Vous pouvez créer un formulaire si besoin
+        })
+    
+    # GET request
+    return render(request, 'reset_password.html', {
+        'uidb64': uidb64,
+        'token': token,
+        'validlink': True,
+        'form': None
+    })

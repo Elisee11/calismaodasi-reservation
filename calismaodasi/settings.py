@@ -154,7 +154,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'eliseegahouidi8@gmail.com'  # Gmail adresiniz
-EMAIL_HOST_PASSWORD = 'Elisee2003'  # Gmail uygulama şifreniz
+EMAIL_HOST_PASSWORD = 'ahtnxqvpbcpculcv'  # Gmail uygulama şifreniz
 DEFAULT_FROM_EMAIL = 'Django Yol <eliseegahouidi8@gmail.com>'
 
 # Şifre sıfırlama link geçerlilik süresi (saniye cinsinden, varsayılan 3 gün)
